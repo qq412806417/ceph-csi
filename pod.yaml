@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ceph-rdb-pod-dynamic  #pod名称自定义
+  namespace:  ceph-csi
+spec:
+  containers:
+  - name: ceph-rdb-pod-dynamic   #容器名称自定义最好与pod一致
+    image: centos
+    command: [ "/bin/bash", "-ce", "tail -f /dev/null" ]
+    volumeMounts:
+    - name: mycephrbd            #自定义 
+      mountPath: /mnt
+      readOnly: false
+  volumes:
+  - name: mycephrbd               #自定义
+    persistentVolumeClaim:
+      claimName:  rbd-pvc         #pvc名称
+
